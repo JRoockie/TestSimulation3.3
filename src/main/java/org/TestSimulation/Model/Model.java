@@ -14,7 +14,7 @@ public class Model {
     public static Island island = Island.getInstance();
     public static Database database = Database.getInstance();
     public static List<Predator> predatorList = new ArrayList<>();
-    public static List<Object> simulaitionList = new ArrayList<>();
+    public static ArrayList<Nature> simulationList = new ArrayList<>();
     public static List<Plant> plantList = new ArrayList<>();
     public static List<Herbivore> herbivoreList = new ArrayList<>();
 
@@ -24,8 +24,8 @@ public class Model {
         island.makeIsland(10, 10);
         UtilityClass.fillSimulationList(4, 2, 2);
         System.out.println(plantList.toString());
-        System.out.println(simulaitionList.toString());
-
+        System.out.println(simulationList.toString());
+        island.setStartRandomPosition(simulationList);
 
     }
 

@@ -45,13 +45,13 @@ public class UtilityClass {
         NatureFactory factory = new NatureFactory();
 
         for (int i = 0; i < herbivoreCount; i++) {
-            simulaitionList.add(factory.createHerbivore());
+            simulationList.add(factory.createHerbivore());
         }
         for (int i = 0; i < PlantCount; i++) {
-            simulaitionList.add(factory.createPlant());
+            simulationList.add(factory.createPlant());
         }
         for (int i = 0; i < PredatorCount; i++) {
-            simulaitionList.add(factory.createPredator());
+            simulationList.add(factory.createPredator());
         }
     }
 }

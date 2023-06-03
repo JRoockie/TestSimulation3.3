@@ -1,8 +1,11 @@
 package org.TestSimulation.Database;
 
+import org.TestSimulation.Model.Nature;
+import org.TestSimulation.Model.UtilityClass;
+
 import java.util.ArrayList;
 
-public class Island implements Runnable{
+public class Island implements Runnable {
     private volatile static Island instance;
 
     private Object[][] matrix;
@@ -14,14 +17,28 @@ public class Island implements Runnable{
     private int xSize;
     private int ySize;
 
-    public void setAnimalPosition(int x, int y){
-
+    public void showIsland(){
 
 
 
 
     }
 
+    public void setAnimalPosition(int x, int y, Nature nature) {
+        if (x < xSize && y < ySize) {
+            ArrayList<Nature> tempList = (ArrayList<Nature>) matrix[x][y];
+            tempList.add(nature);
+        } else {
+            throw new RuntimeException("Вариации координат выходят за границы массива");
+        }
+
+    }
+
+    public void setStartRandomPosition(ArrayList<Nature> arrayList) {
+        for (Nature nature: arrayList) {
+            setAnimalPosition(UtilityClass.random(xSize-1),UtilityClass.random(ySize-1),nature);
+        }
+    }
 
 
     public void makeIsland(int x, int y) {
@@ -36,6 +53,7 @@ public class Island implements Runnable{
             }
         }
     }
+
     private Island() {
     }
 
