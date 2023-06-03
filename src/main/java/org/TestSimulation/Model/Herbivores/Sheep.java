@@ -47,7 +47,7 @@ public class Sheep extends Herbivore implements Nature {
     }
     @Override
     public String toString() {
-        return "Sheep";
+        return "\uD83D\uDC0F";
     }
 
 }

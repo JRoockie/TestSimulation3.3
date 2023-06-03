@@ -16,7 +16,7 @@ public class Grass extends Plant implements PlantFace {
     }
     @Override
     public String toString() {
-        return "Grass";
+        return "\uD83C\uDF3F";
     }
 
 }

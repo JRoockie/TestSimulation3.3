@@ -27,7 +27,8 @@ public class Model {
         System.out.println(simulationList.toString());
         island.setStartRandomPosition(simulationList);
 
-    }
 
+
+    }
 
 }

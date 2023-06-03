@@ -48,7 +48,7 @@ public class Rabbit extends Herbivore implements Nature {
     }
     @Override
     public String toString() {
-        return "Rabbit";
+        return "\uD83D\uDC07";
     }
 
 }

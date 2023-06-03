@@ -51,7 +51,7 @@ public class Wolf extends Predator implements Nature {
 
     @Override
     public String toString() {
-        return "Wolf";
+        return "\uD83D\uDC3A";
     }
 }
 

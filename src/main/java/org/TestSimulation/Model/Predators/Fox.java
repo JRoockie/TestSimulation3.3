@@ -52,7 +52,7 @@ public class Fox  extends Predator implements Nature {
 
     @Override
     public String toString() {
-        return "Fox";
+        return "\uD83E\uDD8A";
     }
 }
 
