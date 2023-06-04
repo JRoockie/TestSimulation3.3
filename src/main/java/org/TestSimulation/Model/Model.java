@@ -18,15 +18,20 @@ public class Model {
     public static List<Plant> plantList = new ArrayList<>();
     public static List<Herbivore> herbivoreList = new ArrayList<>();
 
-    public void init() {
+    public void init() throws Exception {
         UtilityClass.fillAllLists();
 
-        island.makeIsland(10, 10);
+        island.makeIsland(3, 3);
+
         UtilityClass.fillSimulationList(4, 2, 2);
-        System.out.println(plantList.toString());
+
         System.out.println(simulationList.toString());
+
         island.setStartRandomPosition(simulationList);
 
+
+
+        island.showIsland();
 
 
     }

@@ -12,7 +12,7 @@ public class MainMVC {
     public static Island island = Island.getInstance();
     public static Database database = Database.getInstance();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         Model model = new Model();
         Controller controller = new Controller(model);
