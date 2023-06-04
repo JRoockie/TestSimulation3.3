@@ -40,17 +40,18 @@ public class Island implements Runnable {
                     statsList.addAll(tempList);
                     for (var i : statsList.stream().map(Object::toString).collect(Collectors.toSet())) {
                         natureStats.put(i, statsList.stream().filter(k -> Objects.equals(k.toString(), i)).count());
-
                     }
                 }
             }
         }
-        System.out.println("--------------------------------------");
-        System.out.println(natureStats);
-        System.out.println("--------------------------------------");
+        System.out.println("----------------------------------------------\n");
+        System.out.println("Статистика по острову:\n");
+        System.out.println("\t" + natureStats);
+        System.out.println("\n----------------------------------------------");
     }
 
     public void fillDisplayMatrix() throws Exception {
+        System.out.println("Как работает дисплей пользователя:\n");
         HashMap<String, Long>[][] result = new HashMap[xSize][ySize];
 
         for (int x = 0; x < matrix.length; x++) {
@@ -100,12 +101,12 @@ public class Island implements Runnable {
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
-                System.out.print(matrix[i][j] + "\t");
+                System.out.print("\t" + matrix[i][j]);
             }
             System.out.println("\t");
         }
 
-        System.out.println("--------------------------------------");
+        System.out.println("----------------------------------------------\n");
     }
 
 
