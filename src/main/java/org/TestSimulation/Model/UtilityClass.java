@@ -24,13 +24,11 @@ public class UtilityClass {
         fillPredatorList();
 
     }
-
     public static void fillHerbivoreList() {
         herbivoreList.add(new Pig(20));
         herbivoreList.add(new Rabbit(20));
         herbivoreList.add(new Sheep(20));
     }
-
     public static void fillPredatorList() {
         predatorList.add(new Dog(20));
         predatorList.add(new Fox(20));

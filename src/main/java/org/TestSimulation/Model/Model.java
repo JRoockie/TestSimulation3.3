@@ -23,13 +23,11 @@ public class Model {
 
         island.makeIsland(3, 3);
 
-        UtilityClass.fillSimulationList(4, 2, 2);
+        UtilityClass.fillSimulationList(3, 5, 4);
 
         System.out.println(simulationList.toString());
 
         island.setStartRandomPosition(simulationList);
-
-
 
         island.showIsland();
 
