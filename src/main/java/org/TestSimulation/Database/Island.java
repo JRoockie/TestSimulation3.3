@@ -5,29 +5,48 @@ import org.TestSimulation.Model.Nature;
 import org.TestSimulation.Model.UtilityClass;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+
 
 public class Island implements Runnable {
     private volatile static Island instance;
 
+    public static int MAX_TICK = 0;
+
+    private static  int currentTick = 0;
     private Object[][] matrix;
+    private int xSize;
+    private int ySize;
+
+    private HashMap<String, Long> currentIndexNature = new HashMap<>();
+    private HashMap<String, Long> natureStats;
+    private ArrayList<Nature> simulationList;
+    private ArrayList<Thread> threadList;
+
+    public static int getMaxTick() {
+        return MAX_TICK;
+    }
+
+    public static void setMaxTick(int maxTick) {
+        MAX_TICK = maxTick;
+    }
 
     public Object[][] getMatrix() {
         return matrix;
     }
 
 
-    private int xSize;
-    private int ySize;
-
-
-    private HashMap<String, Long> currentIndexNature = new HashMap<>();
-    private HashMap<String, Long> natureStats;
-
     public void showIsland() throws Exception {
         fillDisplayMatrix();
-        generalNatureStats();
+//        generalNatureStats();
 
+    }
+    public void startNature(){
+        for (var i : simulationList) {
+            new Thread(i).start();
+
+        }
     }
 
     public void generalNatureStats() {
@@ -84,6 +103,7 @@ public class Island implements Runnable {
             ArrayList<Nature> tempList = (ArrayList<Nature>) matrix[x][y];
             tempList.add(nature);
             matrix[x][y] = tempList;
+            nature.setCoordinates(x, y);
 
         } else {
             throw new RuntimeException("Вариации координат выходят за границы массива");
@@ -95,18 +115,19 @@ public class Island implements Runnable {
         for (Nature nature : arrayList) {
             setAnimalPosition(UtilityClass.random(xSize - 1), UtilityClass.random(ySize - 1), nature);
         }
-        System.out.println();
-        System.out.println("Как на самом деле заполнена матрица Object[][]");
-        System.out.println();
+        simulationList = arrayList;
 
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                System.out.print("\t" + matrix[i][j]);
-            }
-            System.out.println("\t");
-        }
-
-        System.out.println("----------------------------------------------\n");
+//        System.out.println("\nКак на самом деле заполнена матрица Object[][]\n");
+//
+//
+//        for (int i = 0; i < matrix.length; i++) {
+//            for (int j = 0; j < matrix[i].length; j++) {
+//                System.out.print("\t" + matrix[i][j]);
+//            }
+//            System.out.println("\t");
+//        }
+//
+//        System.out.println("----------------------------------------------\n");
     }
 
 
@@ -141,5 +162,14 @@ public class Island implements Runnable {
     @Override
     public void run() {
 
+        try {
+            if (currentTick < MAX_TICK) {
+                currentTick++;
+                showIsland();
+
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

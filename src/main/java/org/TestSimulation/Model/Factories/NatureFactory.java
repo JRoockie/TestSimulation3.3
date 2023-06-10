@@ -13,16 +13,18 @@ import org.TestSimulation.Model.UtilityClass;
 public class NatureFactory {
 
     public Nature createHerbivore(){
-        var random = UtilityClass.random(2);
+        var random = UtilityClass.random(3);
 
         return switch (random) {
             case 0 -> new Pig(UtilityClass.random(40));
             case 1 -> new Sheep((UtilityClass.random(40)));
             default -> new Rabbit((UtilityClass.random(40)));
+
+
         };
     }
     public Nature createPredator(){
-        var random = UtilityClass.random(2);
+        var random = UtilityClass.random(3);
 
         return switch (random) {
             case 0 -> new Dog(UtilityClass.random(40));

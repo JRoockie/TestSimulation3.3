@@ -28,7 +28,8 @@ public class Fox  extends Predator implements Nature {
     private int maxSaturation = 100;
     private int saturation = 70 ;
     private int saturationDecrement = 10;
-
+    private int xPos = 0;
+    private int yPos = 0;
 
     @Override
     public void eat() {
@@ -46,8 +47,8 @@ public class Fox  extends Predator implements Nature {
     }
 
     @Override
-    public Object call() throws Exception {
-        return null;
+    public void run() {
+
     }
 
     @Override

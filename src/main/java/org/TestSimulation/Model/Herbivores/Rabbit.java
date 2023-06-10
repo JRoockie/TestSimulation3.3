@@ -6,6 +6,7 @@ import org.TestSimulation.Model.Nature;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.FutureTask;
 
 public class Rabbit extends Herbivore implements Nature {
 
@@ -27,8 +28,12 @@ public class Rabbit extends Herbivore implements Nature {
     private int maxSaturation = 100;
     private int saturation = 70 ;
     private int saturationDecrement = 10;
+
+    private int xPos = 0;
+    private int yPos = 0;
     @Override
     public void eat() {
+
 
     }
 
@@ -43,8 +48,13 @@ public class Rabbit extends Herbivore implements Nature {
     }
 
     @Override
-    public Object call() throws Exception {
-        return null;
+    public void setCoordinates(int x, int y) {
+
+    }
+
+    @Override
+    public void run() {
+
     }
     @Override
     public String toString() {

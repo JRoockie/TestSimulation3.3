@@ -25,6 +25,8 @@ public class Sheep extends Herbivore implements Nature {
     private int maxSaturation = 100;
     private int saturation = 70 ;
     private int saturationDecrement = 20;
+    private int xPos = 0;
+    private int yPos = 0;
 
     @Override
     public void eat() {
@@ -42,8 +44,8 @@ public class Sheep extends Herbivore implements Nature {
     }
 
     @Override
-    public Object call() throws Exception {
-        return null;
+    public void run() {
+
     }
     @Override
     public String toString() {

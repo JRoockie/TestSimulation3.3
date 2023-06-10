@@ -9,6 +9,9 @@ import org.TestSimulation.Model.Predators.Predator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Model {
     public static Island island = Island.getInstance();
@@ -17,19 +20,22 @@ public class Model {
     public static ArrayList<Nature> simulationList = new ArrayList<>();
     public static List<Plant> plantList = new ArrayList<>();
     public static List<Herbivore> herbivoreList = new ArrayList<>();
+    ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(3);
 
     public void init() throws Exception {
         UtilityClass.fillAllLists();
 
-        island.makeIsland(3, 3);
+        island.setMaxTick(10);
+        island.makeIsland(4, 4);
 
-        UtilityClass.fillSimulationList(3, 5, 4);
-
-        System.out.println(simulationList.toString());
+        UtilityClass.fillSimulationList(1, 0, 0);
 
         island.setStartRandomPosition(simulationList);
 
-        island.showIsland();
+//        System.out.println(simulationList.toString());
+        scheduledThreadPool.scheduleWithFixedDelay(island, 0, 2, TimeUnit.SECONDS);
+        island.startNature();
+
 
 
     }

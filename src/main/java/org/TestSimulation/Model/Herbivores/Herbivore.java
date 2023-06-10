@@ -20,8 +20,13 @@ public class Herbivore implements Nature {
     }
 
     @Override
-    public Object call() throws Exception {
-        return null;
+    public void setCoordinates(int x, int y) {
+
+    }
+
+    @Override
+    public void run() {
+
     }
 //    @Override
 //    public String toString() {
