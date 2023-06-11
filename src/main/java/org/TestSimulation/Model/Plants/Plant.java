@@ -22,6 +22,12 @@ public class Plant implements Nature, PlantFace {
     }
 
     @Override
+    public void setMultiply(boolean isMultiply) {
+
+    }
+
+
+    @Override
     public void run() {
 
     }

@@ -47,6 +47,11 @@ public class Fox  extends Predator implements Nature {
     }
 
     @Override
+    public void setMultiply(boolean isMultiply) {
+
+    }
+
+    @Override
     public void run() {
 
     }

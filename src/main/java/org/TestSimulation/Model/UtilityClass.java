@@ -18,17 +18,26 @@ public class UtilityClass {
         return ThreadLocalRandom.current().nextInt(bound);
     }
 
+    public static int random(int from, int to) {
+        return ThreadLocalRandom.current().nextInt();
+    }
+    public static int random(int[] bound){
+        return bound[ThreadLocalRandom.current().nextInt(bound.length)] ;
+    }
+
+
     public static void fillAllLists() {
         fillHerbivoreList();
         fillPlantsList();
         fillPredatorList();
-
     }
+
     public static void fillHerbivoreList() {
         herbivoreList.add(new Pig(20));
         herbivoreList.add(new Rabbit(20));
         herbivoreList.add(new Sheep(20));
     }
+
     public static void fillPredatorList() {
         predatorList.add(new Dog(20));
         predatorList.add(new Fox(20));

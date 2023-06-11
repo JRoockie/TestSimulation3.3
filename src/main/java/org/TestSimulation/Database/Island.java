@@ -5,24 +5,14 @@ import org.TestSimulation.Model.Nature;
 import org.TestSimulation.Model.UtilityClass;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+
+import static org.TestSimulation.Model.Model.island;
+import static org.TestSimulation.Model.Model.scheduledThreadPool;
 
 
 public class Island implements Runnable {
     private volatile static Island instance;
-
-    public static int MAX_TICK = 0;
-
-    private static  int currentTick = 0;
-    private Object[][] matrix;
-    private int xSize;
-    private int ySize;
-
-    private HashMap<String, Long> currentIndexNature = new HashMap<>();
-    private HashMap<String, Long> natureStats;
-    private ArrayList<Nature> simulationList;
-    private ArrayList<Thread> threadList;
 
     public static int getMaxTick() {
         return MAX_TICK;
@@ -31,6 +21,29 @@ public class Island implements Runnable {
     public static void setMaxTick(int maxTick) {
         MAX_TICK = maxTick;
     }
+
+    public static int getCurrentTick() {
+        return currentTick;
+    }
+
+    public static void setCurrentTick(int currentTick) {
+        Island.currentTick = currentTick;
+    }
+
+    public static void incrementTick() {
+        currentTick++;
+    }
+
+    private static int MAX_TICK = 0;
+    private static int currentTick = 0;
+    private Object[][] matrix;
+    private int xSize;
+    private int ySize;
+
+    private HashMap<String, Long> currentIndexNature = new HashMap<>();
+    private HashMap<String, Long> natureStats;
+    private ArrayList<Nature> simulationList;
+
 
     public Object[][] getMatrix() {
         return matrix;
@@ -42,7 +55,8 @@ public class Island implements Runnable {
 //        generalNatureStats();
 
     }
-    public void startNature(){
+
+    public void startNature() {
         for (var i : simulationList) {
             new Thread(i).start();
 
@@ -96,10 +110,35 @@ public class Island implements Runnable {
             System.out.println();
         }
     }
-
+    public ArrayList<Nature> showActualNode(int x, int y){
+        return (ArrayList<Nature>) matrix[x][y];
+    }
 
     public void setAnimalPosition(int x, int y, Nature nature) {
-        if (x < xSize && y < ySize) {
+        if (x < xSize && y < ySize && x >= 0 && y >= 0) {
+            ArrayList<Nature> tempList = (ArrayList<Nature>) matrix[x][y];
+            tempList.add(nature);
+            matrix[x][y] = tempList;
+            nature.setCoordinates(x, y);
+
+        } else {
+            throw new RuntimeException("Вариации координат выходят за границы массива");
+        }
+
+    }
+    public void removeAnimal(int x, int y, Nature nature) {
+        if (x < xSize && y < ySize && x >= 0 && y >= 0) {
+            ArrayList<Nature> tempList = (ArrayList<Nature>) matrix[x][y];
+            tempList.remove(nature);
+            matrix[x][y] = tempList;
+
+        } else {
+            throw new RuntimeException("Вариации координат выходят за границы массива");
+        }
+    }
+
+    public void setAnimalPosition(int x, int y, Nature nature, int[] bound) {
+        if (x < xSize && y < ySize && x > 0 && y > 0) {
             ArrayList<Nature> tempList = (ArrayList<Nature>) matrix[x][y];
             tempList.add(nature);
             matrix[x][y] = tempList;
@@ -130,11 +169,32 @@ public class Island implements Runnable {
 //        System.out.println("----------------------------------------------\n");
     }
 
+//    public synchronized void addNew(int x, int y, Nature nature){
+//        if (x < xSize && y < ySize && x > 0 && y > 0) {
+//            ArrayList<Nature> tempList = (ArrayList<Nature>) matrix[x][y];
+//            tempList.add(nature);
+//            matrix[x][y] = tempList;
+//            nature.setCoordinates(x, y);
+//
+//        } else {
+//            throw new RuntimeException("Вариации координат выходят за границы массива");
+//        }
+//
+//    }
+    public synchronized void removeDead(Nature nature, int x, int y) {
 
-    public void makeIsland(int x, int y) {
+        simulationList.removeIf(nature1 -> nature1 == nature);
+
+        ArrayList<Nature> tempList = (ArrayList<Nature>) matrix[x][y];
+        tempList.removeIf(nature1 -> nature1 == nature);
+        matrix[x][y] = tempList;
+
+    }
+
+    public void makeIsland(int x, int y, int maxTick) {
         xSize = x;
         ySize = y;
-
+        setMaxTick(maxTick);
         matrix = new Object[xSize][ySize];
 
         for (int i = 0; i < matrix.length; i++) {
@@ -142,7 +202,6 @@ public class Island implements Runnable {
                 matrix[i][j] = new ArrayList<Nature>();
             }
         }
-
     }
 
     private Island() {
@@ -159,17 +218,33 @@ public class Island implements Runnable {
         return instance;
     }
 
+    public boolean isOver() {
+        return (currentTick < getMaxTick());
+    }
+
     @Override
     public void run() {
-
         try {
-            if (currentTick < MAX_TICK) {
+            if (isOver()) {
                 currentTick++;
                 showIsland();
+            } else {
+                scheduledThreadPool.shutdown();
+                for (Runnable i : simulationList) {
 
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+    }
+
+    public int getxSize() {
+        return xSize;
+    }
+
+    public int getySize() {
+        return ySize;
     }
 }

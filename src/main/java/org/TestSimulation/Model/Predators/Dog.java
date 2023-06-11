@@ -52,6 +52,11 @@ public class Dog  extends Predator implements Nature {
     }
 
     @Override
+    public void setMultiply(boolean isMultiply) {
+
+    }
+
+    @Override
     public void run() {
 
     }

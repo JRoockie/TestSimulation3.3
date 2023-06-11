@@ -25,6 +25,17 @@ public class Herbivore implements Nature {
     }
 
     @Override
+    public boolean get() {
+        return false;
+    }
+
+    @Override
+    public void setMultiply(boolean isMultiply) {
+
+    }
+
+
+    @Override
     public void run() {
 
     }

@@ -20,24 +20,25 @@ public class Model {
     public static ArrayList<Nature> simulationList = new ArrayList<>();
     public static List<Plant> plantList = new ArrayList<>();
     public static List<Herbivore> herbivoreList = new ArrayList<>();
-    ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(3);
+    public static ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(3);
+
 
     public void init() throws Exception {
         UtilityClass.fillAllLists();
 
-        island.setMaxTick(10);
-        island.makeIsland(4, 4);
 
-        UtilityClass.fillSimulationList(1, 0, 0);
+        Island.setMaxTick(20);
+
+        island.makeIsland(2, 2,20);
+
+        UtilityClass.fillSimulationList(2, 6 , 0);
 
         island.setStartRandomPosition(simulationList);
 
 //        System.out.println(simulationList.toString());
+
         scheduledThreadPool.scheduleWithFixedDelay(island, 0, 2, TimeUnit.SECONDS);
         island.startNature();
 
-
-
     }
-
 }

@@ -24,6 +24,9 @@ public class Grass extends Plant implements PlantFace,Nature {
     public void setCoordinates(int x, int y) {
 
     }
+
+
+
     @Override
     public void run() {
 
