@@ -1,6 +1,8 @@
 package org.TestSimulation.Model.Factories;
 
 import org.TestSimulation.Model.Herbivores.Pig;
+import org.TestSimulation.Model.Herbivores.Rabbit;
+import org.TestSimulation.Model.Herbivores.Sheep;
 import org.TestSimulation.Model.Nature;
 import org.TestSimulation.Model.Plants.Grass;
 import org.TestSimulation.Model.Predators.Dog;

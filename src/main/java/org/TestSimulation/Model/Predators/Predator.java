@@ -30,6 +30,16 @@ public class Predator implements Nature {
     }
 
     @Override
+    public void setEaten(boolean isEaten) {
+
+    }
+
+    @Override
+    public boolean getEaten() {
+        return false;
+    }
+
+    @Override
     public void run() {
 
     }

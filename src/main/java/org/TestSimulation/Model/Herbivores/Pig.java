@@ -3,6 +3,7 @@ package org.TestSimulation.Model.Herbivores;
 import org.TestSimulation.Database.Island;
 import org.TestSimulation.Model.Factories.NatureFactory;
 import org.TestSimulation.Model.Nature;
+import org.TestSimulation.Model.Plants.Grass;
 import org.TestSimulation.Model.Plants.Plant;
 import org.TestSimulation.Model.UtilityClass;
 
@@ -10,24 +11,27 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 
 public class Pig extends Herbivore implements Nature {
-    public boolean isEaten = false;
-    public boolean isMultiply = false;
-    public boolean isMoved = false;
-
+//    public boolean isMoved = false;
     public String getID() {
         return ID;
     }
 
     private final String ID = "Pig";
-    private final Map<String, Integer> eatMap = new HashMap<>();
 
+    private final Map<Class<?>, Integer> eatMap = new HashMap<>();
     {
-        eatMap.put("\uD83C\uDF3F", 80);
+        eatMap.put(Grass.class, 80);
     }
+
+    private final int maxMovementSpeed = 1;
+
+    private final int[] movementSpeedArray = new int[]{1, -1};
+    private final int maxWeight = 200;
 
     public Pig(int maxAge) {
         this.maxAge = maxAge;
@@ -36,35 +40,118 @@ public class Pig extends Herbivore implements Nature {
     public Pig() {
         maxAge = 40;
     }
+    public boolean isEaten = false;
+    @Override
+    public void setEaten(boolean isEaten){
+        this.isEaten = true;
+    }
 
+    @Override
+    public boolean getEaten() {
+        return isEaten;
+    }
+
+    public boolean isMultiply = false;
+
+    @Override
+    public boolean get() {
+        return isMultiply;
+    }
     public ArrayList<Nature> getRawCurrentNode;
-
     private int maxAge;
     private int age = 0;
-    private final int maxWeight = 200;
     private int weight = 20;
     private int weightIncrement = 10;
-    private final int maxMovementSpeed = 1;
-    private final int[] movementSpeedArray = new int[]{1, -1};
     private int maxSaturation = 100;
     private int saturation = 60;
-    private int saturationDecrement = 10;
+    private int saturationDecrement = 5;
     private int saturationIncrement = 20;
     private int xPos = 0;
     private int yPos = 0;
-
+    @Override
+    public void setCoordinates(int x, int y) {
+        xPos = x;
+        yPos = y;
+    }
     private int currentMultiplyLevel = 1;
     private int maxMultiplyLevel = 3;
-
+    @Override
+    public void setMultiply(boolean isMultiply) {
+        this.isMultiply = isMultiply;
+    }
     private Nature partner;
+    private Nature eatableNature;
+
+    public boolean wantEat() {
+        synchronized (Island.class) {
+            ArrayList<Nature> temp = (ArrayList<Nature>) Island.getInstance().getMatrix()[xPos][yPos];
+            if (this.saturation < 70) {
+                for (var i : temp) {
+                    if (i instanceof Plant) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
 
     @Override
     public void eat() {
+        synchronized (Island.class) {
+            try {
+                getRawCurrentNode = Island.getInstance().showActualNode(xPos, yPos);
+                ArrayList<Nature> list = (ArrayList<Nature>) getRawCurrentNode.stream()
+                            .filter(x -> x instanceof Plant)
+                            .collect(Collectors.toList());
+                eatableNature = list.get(UtilityClass.random(list.size()));
+                if (!eatableNature.getEaten()) {
+                    eatableNature.setEaten(true);
+                    saturation += saturationIncrement;
+                    System.out.println(this + " im eating " + saturation);
+                } else {
+                    throw new RuntimeException();
+                }
 
-        System.out.println(this + " im eating " + saturation);
+                } catch (RuntimeException e) {
+                    System.out.println("Nothing to eat " + saturation);
+                }
+            }
+        }
 
-        saturation += saturationIncrement;
 
+    public boolean wantMultiply() {
+        if (isMultiply) {
+            return false;
+        }
+        if (currentMultiplyLevel != maxMultiplyLevel) {
+            return false;
+        }
+        synchronized (Island.class) {
+            if (saturation >= 70) {
+                try {
+                    getRawCurrentNode = Island.getInstance().showActualNode(xPos, yPos);
+                    ArrayList<Nature> list = (ArrayList<Nature>) getRawCurrentNode.stream()
+                            .filter(x -> x != this && x.getClass().isInstance(this))
+                            .collect(Collectors.toList());
+                    partner = list.get(UtilityClass.random(list.size()));
+                    partner.setMultiply(true);
+                    return true;
+                } catch (RuntimeException e) {
+                    System.out.println("No pigs nearby");
+                    return false;
+                }
+            }
+            return false;
+        }
+    }
+    @Override
+    public void multiply() {
+        //блокировать свинью, если ее выбрали для спаривания.
+        // Чтобы свинья ожидала спаривания, и не делала ничего
+        System.out.println(this + "@" + this.hashCode() + " im multiplying with" + saturation + "@" + partner.hashCode());
+        partner = null;
+        currentMultiplyLevel = 0;
     }
 
     @Override
@@ -93,8 +180,6 @@ public class Pig extends Herbivore implements Nature {
                     randomY = -randomY;
                 }
             }
-
-
             if (xPos + randomX < island.getxSize() && yPos + randomY < island.getySize()) {
                 int newY = yPos + randomY;
                 int newX = xPos + randomX;
@@ -103,80 +188,6 @@ public class Pig extends Herbivore implements Nature {
             }
         }
         System.out.println(this + " i'm moving " + saturation);
-
-
-    }
-
-    @Override
-    public void multiply() {
-        //блокировать свинью, если ее выбрали для спаривания.
-        // Чтобы свинья ожидала спаривания, и не делала ничего
-
-        System.out.println(this + "@" + this.hashCode() + " im multiplying with" + saturation + "@" + partner.hashCode());
-
-        partner = null;
-        currentMultiplyLevel = 0;
-    }
-
-    @Override
-    public void setCoordinates(int x, int y) {
-        xPos = x;
-        yPos = y;
-    }
-
-    @Override
-    public boolean get() {
-        return isMultiply;
-    }
-
-    @Override
-    public void setMultiply(boolean isMultiply) {
-        this.isMultiply = isMultiply;
-    }
-
-    public void action() {
-
-    }
-
-    public boolean wantMultiply() {
-        if (isMultiply == true) {
-            return false;
-        }
-        if (currentMultiplyLevel != maxMultiplyLevel) {
-            return false;
-        }
-        synchronized (Island.class) {
-            if (saturation >= 70) {
-                try {
-                    getRawCurrentNode = Island.getInstance().showActualNode(xPos, yPos);
-                    ArrayList<Nature> list = (ArrayList<Nature>) getRawCurrentNode.stream()
-                            .filter(x -> x != this && x.getClass().isInstance(this))
-                            .collect(Collectors.toList());
-                    partner = list.get(UtilityClass.random(list.size()));
-                    partner.setMultiply(true);
-                    return true;
-                } catch (RuntimeException e) {
-                    System.out.println("No pigs nearby");
-                    return false;
-                }
-
-            }
-            return false;
-        }
-    }
-
-    public boolean wantEat() {
-        synchronized (Island.class) {
-            ArrayList<Nature> temp = (ArrayList<Nature>) Island.getInstance().getMatrix()[xPos][yPos];
-            if (this.saturation < 70) {
-                for (var i : temp) {
-                    if (i instanceof Plant) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
     }
 
     @Override
@@ -191,29 +202,23 @@ public class Pig extends Herbivore implements Nature {
                 }
                 if (wantEat()) {
                     eat();
-
                 } else if (wantMultiply()) {
                     multiply();
-                    // Не забыть о том, что первая свинья может мгновенно сдохнуть от размножения
-                    // ты написал переменные- флаги наверху
                 } else {
                     move();
                 }
             }
             saturation -= saturationDecrement;
-
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-
             if (isMultiply) {
                 isMultiply = false;
                 currentMultiplyLevel = 0;
                 try {
                     Island.getInstance().setAnimalPosition(xPos, yPos, NatureFactory.create(this.getClass()));
-
                 } catch (NoSuchMethodException e) {
                     throw new RuntimeException(e);
                 } catch (InvocationTargetException e) {
@@ -225,14 +230,9 @@ public class Pig extends Herbivore implements Nature {
                 }
             }
         }
-
-
         Island island = Island.getInstance();
         island.removeDead(this, xPos, yPos);
-
         Thread.currentThread().interrupt();
-
-
     }
 
     @Override

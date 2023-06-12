@@ -10,6 +10,8 @@ public interface Nature extends Runnable {
         return false;
     }
     void setMultiply(boolean isMultiply);
+    void setEaten(boolean isEaten);
+    boolean getEaten();
 
 
 }

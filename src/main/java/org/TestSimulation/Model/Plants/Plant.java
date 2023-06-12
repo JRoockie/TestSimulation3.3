@@ -26,6 +26,16 @@ public class Plant implements Nature, PlantFace {
 
     }
 
+    @Override
+    public void setEaten(boolean isEaten) {
+
+    }
+
+    @Override
+    public boolean getEaten() {
+        return false;
+    }
+
 
     @Override
     public void run() {

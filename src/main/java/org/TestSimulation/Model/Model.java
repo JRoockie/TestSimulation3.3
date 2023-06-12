@@ -29,9 +29,9 @@ public class Model {
 
         Island.setMaxTick(20);
 
-        island.makeIsland(2, 2,20);
+        island.makeIsland(3, 3,10);
 
-        UtilityClass.fillSimulationList(2, 6 , 0);
+        UtilityClass.fillSimulationList(2, 1 , 0);
 
         island.setStartRandomPosition(simulationList);
 

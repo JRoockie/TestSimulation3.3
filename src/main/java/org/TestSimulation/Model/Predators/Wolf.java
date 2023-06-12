@@ -30,6 +30,16 @@ public class Wolf extends Predator implements Nature {
     private int saturationDecrement = 10;
     private int xPos = 0;
     private int yPos = 0;
+    public boolean isEaten = false;
+    @Override
+    public void setEaten(boolean isEaten){
+        this.isEaten = true;
+    }
+
+    @Override
+    public boolean getEaten() {
+        return isEaten;
+    }
     @Override
     public void eat() {
 
