@@ -6,7 +6,6 @@ import org.TestSimulation.Model.Factories.NatureFactory;
 import org.TestSimulation.Model.behavior.CouldEat;
 import org.TestSimulation.Model.behavior.CouldMove;
 import org.TestSimulation.Model.behavior.CouldMultiply;
-import org.TestSimulation.Model.plants.Plant;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +33,7 @@ public abstract class Animal extends Nature implements CouldEat, CouldMultiply, 
                     partner.setMultiply(true);
                     return true;
                 } catch (RuntimeException e) {
-                    System.out.println("No pigs nearby");
+//                    System.out.println("No pigs nearby");
                     return false;
                 }
             }
@@ -43,7 +42,7 @@ public abstract class Animal extends Nature implements CouldEat, CouldMultiply, 
     }
 
     public void multiply() {
-        System.out.println(this + "@" + this.hashCode() + " im multiplying with" + saturation + "@" + partner.hashCode());
+//        System.out.println(this + "@" + this.hashCode() + " im multiplying with" + saturation + "@" + partner.hashCode());
         partner = null;
         currentMultiplyLevel = 0;
     }
@@ -81,12 +80,12 @@ public abstract class Animal extends Nature implements CouldEat, CouldMultiply, 
                 if (!eatableNature.isEaten() && chance) {
                     eatableNature.setEaten(true);
                     saturation += saturationIncrement;
-                    System.out.println(this + " im eating " + saturation);
+//                    System.out.println(this + " im eating " + saturation);
                 } else {
                     throw new RuntimeException();
                 }
             } catch (RuntimeException e) {
-                System.out.println("Nothing to eat " + saturation);
+//                System.out.println("Nothing to eat " + saturation);
             }
         }
     }
@@ -118,15 +117,19 @@ public abstract class Animal extends Nature implements CouldEat, CouldMultiply, 
             if (xPos + randomX < island.getxSize() && yPos + randomY < island.getySize()) {
                 int newY = yPos + randomY;
                 int newX = xPos + randomX;
-                island.removeAnimal(xPos, yPos, this);
-                island.setAnimalPosition(newX, newY, this);
+
+                if(island.checkAnimalCount(newX,newY, this)){
+                    island.removeAnimal(xPos, yPos, this);
+                    island.setAnimalPosition(newX, newY, this);
+                }
             }
         }
-        System.out.println(this + " i'm moving " + saturation);
+//        System.out.println(this + " i'm moving " + saturation);
     }
 
     public void action() {
         while (saturation != 0 && age < maxAge && !isEaten && Island.getInstance().isOver()) {
+            age++;
             if (!isMultiply) {
                 if (currentMultiplyLevel < maxMultiplyLevel) {
                     currentMultiplyLevel++;

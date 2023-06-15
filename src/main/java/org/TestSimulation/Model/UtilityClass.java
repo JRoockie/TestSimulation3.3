@@ -1,13 +1,9 @@
 package org.TestSimulation.Model;
 
 import org.TestSimulation.Model.Factories.NatureFactory;
-import org.TestSimulation.Model.animals.Herbivores.Pig;
-import org.TestSimulation.Model.animals.Herbivores.Rabbit;
-import org.TestSimulation.Model.animals.Herbivores.Sheep;
+import org.TestSimulation.Model.animals.Herbivores.*;
+import org.TestSimulation.Model.animals.Predators.*;
 import org.TestSimulation.Model.plants.Grass;
-import org.TestSimulation.Model.animals.Predators.Dog;
-import org.TestSimulation.Model.animals.Predators.Fox;
-import org.TestSimulation.Model.animals.Predators.Wolf;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -44,15 +40,25 @@ public class UtilityClass {
     }
 
     public static void fillHerbivoreList() {
-        herbivoreList.add(new Pig(20));
-        herbivoreList.add(new Rabbit(20));
-        herbivoreList.add(new Sheep(20));
+        herbivoreList.add(new Pig(60));
+        herbivoreList.add(new Rabbit(40));
+        herbivoreList.add(new Sheep(50));
+        herbivoreList.add(new Cow(30));
+        herbivoreList.add(new Chicken(30));
+        herbivoreList.add(new Deer(60));
+        herbivoreList.add(new Duck(40));
+        herbivoreList.add(new Grasshopper(50));
+        herbivoreList.add(new Horse(60));
+        herbivoreList.add(new Rat(20));
+
     }
 
     public static void fillPredatorList() {
-        predatorList.add(new Dog(20));
-        predatorList.add(new Fox(20));
-        predatorList.add(new Wolf(20));
+        predatorList.add(new Dog(50));
+        predatorList.add(new Bear(50));
+        predatorList.add(new Cat(50));
+        predatorList.add(new Fox(50));
+        predatorList.add(new Wolf(50));
     }
 
     public static void fillPlantsList() {

@@ -45,6 +45,10 @@ abstract public class Nature implements Runnable {
         yPos = y;
     }
 
+    public int getMaxNatureCount(){
+        return maxNatureCount;
+    }
+
     abstract public void action();
 
     @Override

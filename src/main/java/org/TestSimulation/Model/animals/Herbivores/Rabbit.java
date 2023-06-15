@@ -14,9 +14,9 @@ public class Rabbit extends Animal{
     public Rabbit(int maxAge) {
             this.eatMap.put(Grass.class, 80);
             this.maxAge = maxAge;
-            this.weight = 20;
+            this.weight = 15;
             this.maxMovementSpeed = 1;
-            this.maxNatureCount = 30;
+            this.maxNatureCount = 50;
         }
 
 

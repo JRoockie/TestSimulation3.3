@@ -13,9 +13,9 @@ public class Sheep extends Animal {
     public Sheep(int maxAge) {
         this.eatMap.put(Grass.class, 80);
         this.maxAge = maxAge;
-        this.weight = 20;
-        this.maxMovementSpeed = 1;
-        this.maxNatureCount = 30;
+        this.weight = 30;
+        this.maxMovementSpeed = 2;
+        this.maxNatureCount = 20;
 
     }
     @Override

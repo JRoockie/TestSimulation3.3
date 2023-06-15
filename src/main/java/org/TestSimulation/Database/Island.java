@@ -55,7 +55,7 @@ public class Island implements Runnable {
 
     public void showIsland() throws Exception {
         fillDisplayMatrix();
-//        generalNatureStats();
+        generalNatureStats();
 
     }
 
@@ -113,6 +113,17 @@ public class Island implements Runnable {
         }
     }
 
+    public boolean checkAnimalCount(int x, int y, Nature nature) {
+        ArrayList<Nature> temp = showActualNode(x, y);
+        temp.stream()
+                .filter(g -> g != nature && g.getClass().isInstance(nature.getClass()))
+                .collect(Collectors.toList());
+        if (nature.getMaxNatureCount() >= temp.size()){
+            return true;
+        }
+        return false;
+    }
+
     public ArrayList<Nature> showActualNode(int x, int y) {
         return (ArrayList<Nature>) matrix[x][y];
     }
@@ -123,17 +134,17 @@ public class Island implements Runnable {
         }
         simulationList = arrayList;
 
-//        System.out.println("\nКак на самом деле заполнена матрица Object[][]\n");
-//
-//
-//        for (int i = 0; i < matrix.length; i++) {
-//            for (int j = 0; j < matrix[i].length; j++) {
-//                System.out.print("\t" + matrix[i][j]);
-//            }
-//            System.out.println("\t");
-//        }
-//
-//        System.out.println("----------------------------------------------\n");
+        System.out.println("\nКак на самом деле заполнена матрица Object[][]\n");
+
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print("\t" + matrix[i][j]);
+            }
+            System.out.println("\t");
+        }
+
+        System.out.println("----------------------------------------------\n");
     }
 
     public void setAnimalPosition(int x, int y, Nature nature) {

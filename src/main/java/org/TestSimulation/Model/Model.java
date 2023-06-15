@@ -24,13 +24,13 @@ public class Model {
         UtilityClass.fillAllLists();
 
         island.setMaxTick(20);
-        island.makeIsland(3, 3,40);
+        island.makeIsland(150, 20,100);
 
-        UtilityClass.fillSimulationList(2, 10 , 0);
+        UtilityClass.fillSimulationList(200, 1000 , 100);
+//        System.out.println(simulationList.toString());
 
         island.setStartRandomPosition(simulationList);
 
-//        System.out.println(simulationList.toString());
 
         scheduledThreadPool.scheduleWithFixedDelay(island, 0, 2, TimeUnit.SECONDS);
         island.startNature();
