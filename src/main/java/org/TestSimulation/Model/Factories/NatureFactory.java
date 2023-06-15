@@ -1,13 +1,13 @@
 package org.TestSimulation.Model.Factories;
 
-import org.TestSimulation.Model.Herbivores.Pig;
-import org.TestSimulation.Model.Herbivores.Rabbit;
-import org.TestSimulation.Model.Herbivores.Sheep;
+import org.TestSimulation.Model.animals.Herbivores.Pig;
+import org.TestSimulation.Model.animals.Herbivores.Rabbit;
+import org.TestSimulation.Model.animals.Herbivores.Sheep;
 import org.TestSimulation.Model.Nature;
-import org.TestSimulation.Model.Plants.Grass;
-import org.TestSimulation.Model.Predators.Dog;
-import org.TestSimulation.Model.Predators.Fox;
-import org.TestSimulation.Model.Predators.Wolf;
+import org.TestSimulation.Model.plants.Grass;
+import org.TestSimulation.Model.animals.Predators.Dog;
+import org.TestSimulation.Model.animals.Predators.Fox;
+import org.TestSimulation.Model.animals.Predators.Wolf;
 import org.TestSimulation.Model.UtilityClass;
 
 import java.lang.reflect.InvocationTargetException;
@@ -26,8 +26,18 @@ public class NatureFactory {
 //        };
         return new Pig(UtilityClass.random(40));
     }
-    public static Nature create(Class<?> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        return (Nature) clazz.getDeclaredConstructor().newInstance();
+    public static Nature create(Class<?> clazz) {
+        try {
+            return (Nature) clazz.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
     public Nature createPredator(){
         var random = UtilityClass.random(3);

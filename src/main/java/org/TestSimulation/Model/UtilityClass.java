@@ -1,28 +1,39 @@
 package org.TestSimulation.Model;
 
 import org.TestSimulation.Model.Factories.NatureFactory;
-import org.TestSimulation.Model.Herbivores.Pig;
-import org.TestSimulation.Model.Herbivores.Rabbit;
-import org.TestSimulation.Model.Herbivores.Sheep;
-import org.TestSimulation.Model.Plants.Grass;
-import org.TestSimulation.Model.Predators.Dog;
-import org.TestSimulation.Model.Predators.Fox;
-import org.TestSimulation.Model.Predators.Wolf;
+import org.TestSimulation.Model.animals.Herbivores.Pig;
+import org.TestSimulation.Model.animals.Herbivores.Rabbit;
+import org.TestSimulation.Model.animals.Herbivores.Sheep;
+import org.TestSimulation.Model.plants.Grass;
+import org.TestSimulation.Model.animals.Predators.Dog;
+import org.TestSimulation.Model.animals.Predators.Fox;
+import org.TestSimulation.Model.animals.Predators.Wolf;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 import static org.TestSimulation.Model.Model.*;
 
 public class UtilityClass {
+
     public static int random(int bound) {
         return ThreadLocalRandom.current().nextInt(bound);
     }
 
-    public static int random(int from, int to) {
-        return ThreadLocalRandom.current().nextInt();
+    public static int random(int[] bound) {
+        return bound[ThreadLocalRandom.current().nextInt(bound.length)];
     }
-    public static int random(int[] bound){
-        return bound[ThreadLocalRandom.current().nextInt(bound.length)] ;
+
+    public static int randomMove(int n) {
+
+        int[] numbers = new int[n * 2];
+        int index = 0;
+        for (int i = -n; i <= n; i++) {
+            if (i != 0) {
+                numbers[index] = i;
+                index++;
+            }
+        }
+        return random(numbers);
     }
 
 

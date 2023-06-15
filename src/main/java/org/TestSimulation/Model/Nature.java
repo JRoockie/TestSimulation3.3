@@ -1,17 +1,55 @@
 package org.TestSimulation.Model;
 
-public interface Nature extends Runnable {
-    void eat();
-    void move(); // у растений возвращать 0
-    void multiply();
-    void setCoordinates(int x, int y);
+import java.util.ArrayList;
 
-    default boolean get() {
-        return false;
+abstract public class Nature implements Runnable {
+
+    protected boolean isEaten = false;
+    protected boolean isMultiply = false;
+
+    protected ArrayList<Nature> getRawCurrentNode;
+    protected Nature partner;
+    protected Nature eatableNature;
+
+    protected int maxMovementSpeed;
+    protected int maxAge;
+    protected int age = 0;
+    protected int weight;
+    protected int saturation = 60;
+    protected int saturationDecrement = 5;
+    protected int saturationIncrement = 20;
+    protected int xPos;
+    protected int yPos;
+    protected int currentMultiplyLevel = 0;
+    protected int maxMultiplyLevel = 10;
+    protected int maxNatureCount;
+
+    public boolean isEaten() {
+        return isEaten;
     }
-    void setMultiply(boolean isMultiply);
-    void setEaten(boolean isEaten);
-    boolean getEaten();
 
+    public void setEaten(boolean eaten) {
+        isEaten = eaten;
+    }
 
+    public boolean isMultiply() {
+        return isMultiply;
+    }
+
+    public void setMultiply(boolean multiply) {
+        isMultiply = multiply;
+    }
+
+    public void setCoordinates(int x, int y) {
+        xPos = x;
+        yPos = y;
+    }
+
+    abstract public void action();
+
+    @Override
+    public void run() {
+        this.action();
+    }
 }
+
